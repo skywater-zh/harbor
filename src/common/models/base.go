@@ -17,12 +17,10 @@ package models
 import (
 	"github.com/astaxie/beego/orm"
 
-	"github.com/goharbor/harbor/src/replication/ng/dao/models"
 )
 
 func init() {
 	orm.RegisterModel(
-		new(models.Registry),
 		new(RepPolicy),
 		new(RepJob),
 		new(User),
