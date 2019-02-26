@@ -15,10 +15,10 @@
 package execution
 
 import (
+	"github.com/goharbor/harbor/src/common/dao"
+	"github.com/goharbor/harbor/src/common/models"
 	"fmt"
 	"github.com/goharbor/harbor/src/core/utils"
-	"github.com/goharbor/harbor/src/replication/ng/dao/models"
-	"github.com/goharbor/harbor/src/replication/ng/dao"
 )
 
 // Manager manages the executions
@@ -58,10 +58,12 @@ type Manager interface {
 	GetTaskLog(int64) ([]byte, error)
 }
 
+// DefaultManager ..
 type DefaultManager struct {
 
 }
 
+// NewDefaultManager ...
 func NewDefaultManager() (Manager, error)  {
 	return &DefaultManager{}, nil
 }
@@ -107,17 +109,17 @@ func (dm *DefaultManager) Remove(id int64) error {
 	return dao.DeleteExecution(id)
 }
 
-// Remove all executions of one policy specified by the policy ID
+// RemoveAll executions of one policy specified by the policy ID
 func (dm *DefaultManager) RemoveAll(policyID int64) error {
 	return dao.DeleteAllExecutions(policyID)
 }
 
-// Create a task
+// CreateTask used to create a task
 func (dm *DefaultManager) CreateTask(task *models.Task) (int64, error) {
 	return dao.AddTask(task)
 }
 
-// List the tasks according to the query
+// ListTasks list the tasks according to the query
 func (dm *DefaultManager) ListTasks(queries ...*models.TaskQuery) (int64, []*models.Task, error) {
 	total, err := dao.GetTotalOfTasks(queries...)
 	if err != nil {
@@ -131,7 +133,7 @@ func (dm *DefaultManager) ListTasks(queries ...*models.TaskQuery) (int64, []*mod
 	return total, tasks, nil
 }
 
-// Get one specified task
+// GetTask get one specified task
 func (dm *DefaultManager) GetTask(id int64) (*models.Task, error) {
 	return dao.GetTask(id)
 }
@@ -160,17 +162,17 @@ func (dm *DefaultManager) UpdateTaskStatus(taskID int64, status string, statusCo
 	return nil
 }
 
-// Remove one task specified by task ID
+// RemoveTask remove one task specified by task ID
 func (dm *DefaultManager) RemoveTask(id int64) error {
 	return dao.DeleteTask(id)
 }
 
-// Remove all tasks of one execution specified by the execution ID
+// RemoveAllTasks of one execution specified by the execution ID
 func (dm *DefaultManager) RemoveAllTasks(executionID int64) error {
 	return dao.DeleteAllTasks(executionID)
 }
 
-// Get the log of one specific task
+// GetTaskLog get the log of one specific task
 func (dm *DefaultManager) GetTaskLog(taskID int64) ([]byte, error) {
 	task, err := dao.GetTask(taskID)
 	if err != nil {
