@@ -46,7 +46,7 @@ var ExecutionPropsName  = ExecutionFieldsName{
 	EndTime: "EndTime",
 }
 
-// ExecutionFieldsName ...
+// ExecutionFieldsName defines the props of Execution
 type ExecutionFieldsName struct {
 	ID                string
 	PolicyID          string
@@ -90,7 +90,7 @@ var TaskPropsName = TaskFieldsName{
 	EndTime: "EndTime",
 }
 
-// TaskFieldsName ...
+// TaskFieldsName defines the props of Task
 type TaskFieldsName struct {
 	ID                string
 	ExecutionID       string
