@@ -39,7 +39,5 @@ func init() {
 		new(UserGroup),
 		new(AdminJob),
 		new(JobLog),
-		new(Robot),
-		new(Execution),
-		new(Task))
+		new(Robot))
 }

@@ -5,10 +5,10 @@ import (
 	"github.com/stretchr/testify/assert"
 	"testing"
 	"time"
-	"github.com/goharbor/harbor/src/common/models"
+	"github.com/goharbor/harbor/src/common/utils/log"
+	"github.com/goharbor/harbor/src/replication/ng/dao/models"
 	"github.com/goharbor/harbor/src/common/dao"
 	"os"
-	"github.com/goharbor/harbor/src/common/utils/log"
 )
 
 var executionManager, _ = NewDefaultManager()

@@ -3,9 +3,9 @@ package dao
 import (
 	"github.com/stretchr/testify/require"
 	"testing"
-	"github.com/goharbor/harbor/src/common/models"
 	"github.com/stretchr/testify/assert"
 	"time"
+	"github.com/goharbor/harbor/src/replication/ng/dao/models"
 )
 
 func TestMethodOfExecution(t *testing.T) {

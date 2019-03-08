@@ -23,6 +23,7 @@ import (
 	"github.com/goharbor/harbor/src/common/models"
 	"github.com/goharbor/harbor/src/common/utils/log"
 	"github.com/goharbor/harbor/src/core/api"
+	"github.com/goharbor/harbor/src/replication/ng/execution"
 )
 
 var statusMap = map[string]string{
@@ -38,8 +39,9 @@ var statusMap = map[string]string{
 // Handler handles reqeust on /service/notifications/jobs/*, which listens to the webhook of jobservice.
 type Handler struct {
 	api.BaseController
-	id     int64
-	status string
+	executionMgr      execution.Manager
+	id                int64
+	status            string
 }
 
 // Prepare ...
@@ -66,6 +68,8 @@ func (h *Handler) Prepare() {
 		return
 	}
 	h.status = status
+
+	h.executionMgr, _ = execution.NewDefaultManager()
 }
 
 // HandleScan handles the webhook of scan job
@@ -91,7 +95,7 @@ func (h *Handler) HandleReplication() {
 // HandleReplicationTask handles the webhook of replication task
 func (h *Handler) HandleReplicationTask() {
 	log.Debugf("received replication task status update event: task-%d, status-%s", h.id, h.status)
-	if _, err := dao.UpdateTaskStatus(h.id, h.status); err != nil {
+	if err := h.executionMgr.UpdateTaskStatus(h.id, h.status); err != nil {
 		log.Errorf("Failed to update replication task status, id: %d, status: %s", h.id, h.status)
 		h.HandleInternalServerError(err.Error())
 		return

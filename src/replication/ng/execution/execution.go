@@ -15,10 +15,10 @@
 package execution
 
 import (
-	"github.com/goharbor/harbor/src/common/dao"
-	"github.com/goharbor/harbor/src/common/models"
 	"fmt"
 	"github.com/goharbor/harbor/src/core/utils"
+	"github.com/goharbor/harbor/src/replication/ng/dao/models"
+	"github.com/goharbor/harbor/src/replication/ng/dao"
 )
 
 // Manager manages the executions

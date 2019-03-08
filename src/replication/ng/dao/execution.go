@@ -18,14 +18,15 @@ import (
 	"time"
 
 	"github.com/astaxie/beego/orm"
-	"github.com/goharbor/harbor/src/common/models"
 	"github.com/goharbor/harbor/src/common/utils/log"
 	"fmt"
+	"github.com/goharbor/harbor/src/replication/ng/dao/models"
+	"github.com/goharbor/harbor/src/common/dao"
 )
 
 // AddExecution ...
 func AddExecution(execution *models.Execution) (int64, error) {
-	o := GetOrmer()
+	o := dao.GetOrmer()
 
 	sql := "insert into replication_execution (policy_id, status, status_text, total, failed, succeed, in_progress, stopped, trigger) " +
 		"values (?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING id"
@@ -61,7 +62,7 @@ func GetExecutions(query ...*models.ExecutionQuery) ([]*models.Execution, error)
 }
 
 func executionQueryConditions(query ...*models.ExecutionQuery) orm.QuerySeter {
-	qs := GetOrmer().QueryTable(new(models.Execution))
+	qs := dao.GetOrmer().QueryTable(new(models.Execution))
 	if len(query) == 0 || query[0] == nil {
 		return qs
 	}
@@ -81,7 +82,7 @@ func executionQueryConditions(query ...*models.ExecutionQuery) orm.QuerySeter {
 
 // GetExecution ...
 func GetExecution(id int64) (*models.Execution, error) {
-	o := GetOrmer()
+	o := dao.GetOrmer()
 	t := models.Execution{ID: id}
 	err := o.Read(&t)
 	if err == orm.ErrNoRows {
@@ -92,14 +93,14 @@ func GetExecution(id int64) (*models.Execution, error) {
 
 // DeleteExecution ...
 func DeleteExecution(id int64) error {
-	o := GetOrmer()
+	o := dao.GetOrmer()
 	_, err := o.Delete(&models.Execution{ID: id})
 	return err
 }
 
 // DeleteAllExecutions ...
 func DeleteAllExecutions(policyID int64) error {
-	o := GetOrmer()
+	o := dao.GetOrmer()
 	_, err := o.Delete(&models.Execution{PolicyID: policyID}, "PolicyID")
 	return err
 }
@@ -109,13 +110,13 @@ func UpdateExecution(execution *models.Execution, props ...string) (int64, error
 	if execution.ID == 0 {
 		return 0, fmt.Errorf("execution ID is empty")
 	}
-	o := GetOrmer()
+	o := dao.GetOrmer()
 	return o.Update(execution, props...)
 }
 
 // AddTask ...
 func AddTask(task *models.Task) (int64, error) {
-	o := GetOrmer()
+	o := dao.GetOrmer()
 	sql := `insert into replication_task (execution_id, resource_type, src_resource, dst_resource, job_id, status) 
 				values (?, ?, ?, ?, ?, ?) RETURNING id`
 
@@ -133,7 +134,7 @@ func AddTask(task *models.Task) (int64, error) {
 
 // GetTask ...
 func GetTask(id int64) (*models.Task, error) {
-	o := GetOrmer()
+	o := dao.GetOrmer()
 	sql := `select * from replication_task where id = ?`
 
 	var task models.Task
@@ -170,7 +171,7 @@ func GetTasks(query ...*models.TaskQuery) ([]*models.Task, error) {
 }
 
 func taskQueryConditions(query ...*models.TaskQuery) orm.QuerySeter {
-	qs := GetOrmer().QueryTable(new(models.Task))
+	qs := dao.GetOrmer().QueryTable(new(models.Task))
 	if len(query) == 0 || query[0] == nil {
 		return qs
 	}
@@ -193,14 +194,14 @@ func taskQueryConditions(query ...*models.TaskQuery) orm.QuerySeter {
 
 // DeleteTask ...
 func DeleteTask(id int64) error {
-	o := GetOrmer()
+	o := dao.GetOrmer()
 	_, err := o.Delete(&models.Task{ID: id})
 	return err
 }
 
 // DeleteAllTasks ...
 func DeleteAllTasks(executionID int64) error {
-	o := GetOrmer()
+	o := dao.GetOrmer()
 	_, err := o.Delete(&models.Task{ExecutionID: executionID}, "ExecutionID")
 	return err
 }
@@ -210,7 +211,7 @@ func UpdateTask(task *models.Task, props ...string) (int64, error) {
 	if task.ID == 0 {
 		return 0, fmt.Errorf("task ID is empty")
 	}
-	o := GetOrmer()
+	o := dao.GetOrmer()
 	return o.Update(task, props...)
 }
 

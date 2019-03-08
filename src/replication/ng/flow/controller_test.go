@@ -24,7 +24,7 @@ import (
 	"github.com/goharbor/harbor/src/replication/ng/scheduler"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/goharbor/harbor/src/common/models"
+	"github.com/goharbor/harbor/src/replication/ng/dao/models"
 )
 
 type fakedPolicyManager struct{}

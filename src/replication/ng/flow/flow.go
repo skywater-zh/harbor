@@ -27,8 +27,8 @@ import (
 	"github.com/goharbor/harbor/src/common/utils/log"
 	"github.com/goharbor/harbor/src/replication/ng/adapter"
 	"github.com/goharbor/harbor/src/replication/ng/registry"
-	"github.com/goharbor/harbor/src/common/models"
 	"github.com/goharbor/harbor/src/replication/ng/model"
+	"github.com/goharbor/harbor/src/replication/ng/dao/models"
 )
 
 type flow struct {
@@ -101,7 +101,7 @@ func newFlow(policy *model.Policy, registryMgr registry.Manager,
 func (f *flow) createExecution() (int64, error) {
 	id, err := f.executionMgr.Create(&models.Execution{
 		PolicyID:  f.policy.ID,
-		Status:    model.ExecutionStatusInProgress,
+		Status:    models.ExecutionStatusInProgress,
 		StartTime: time.Now(),
 	})
 	f.executionID = id
@@ -208,7 +208,7 @@ func (f *flow) createTasks() error {
 	for _, item := range f.scheduleItems {
 		task := &models.Task{
 			ExecutionID:  f.executionID,
-			Status:       model.TaskStatusInitialized,
+			Status:       models.TaskStatusInitialized,
 			ResourceType: string(item.SrcResource.Type),
 			SrcResource:  getResourceName(item.SrcResource),
 			DstResource:  getResourceName(item.DstResource),
@@ -241,14 +241,14 @@ func (f *flow) schedule() error {
 		// task as failure
 		if result.Error != nil {
 			log.Errorf("failed to schedule task %d: %v", result.TaskID, err)
-			if err = f.executionMgr.UpdateTaskStatus(result.TaskID, model.TaskStatusFailed); err != nil {
+			if err = f.executionMgr.UpdateTaskStatus(result.TaskID, models.TaskStatusFailed); err != nil {
 				log.Errorf("failed to update task status %d: %v", result.TaskID, err)
 			}
 			continue
 		}
 		allFailed = false
 		// if the task is submitted successfully, update the status and start time
-		if err = f.executionMgr.UpdateTaskStatus(result.TaskID, model.TaskStatusPending); err != nil {
+		if err = f.executionMgr.UpdateTaskStatus(result.TaskID, models.TaskStatusPending); err != nil {
 			log.Errorf("failed to update task status %d: %v", result.TaskID, err)
 		}
 		if err = f.executionMgr.UpdateTask(&models.Task{
