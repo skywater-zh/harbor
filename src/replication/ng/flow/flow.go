@@ -26,9 +26,9 @@ import (
 
 	"github.com/goharbor/harbor/src/common/utils/log"
 	"github.com/goharbor/harbor/src/replication/ng/adapter"
-	"github.com/goharbor/harbor/src/replication/ng/registry"
-	"github.com/goharbor/harbor/src/replication/ng/model"
 	"github.com/goharbor/harbor/src/replication/ng/dao/models"
+	"github.com/goharbor/harbor/src/replication/ng/model"
+	"github.com/goharbor/harbor/src/replication/ng/registry"
 )
 
 type flow struct {

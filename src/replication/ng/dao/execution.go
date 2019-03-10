@@ -17,11 +17,11 @@ package dao
 import (
 	"time"
 
-	"github.com/astaxie/beego/orm"
-	"github.com/goharbor/harbor/src/common/utils/log"
 	"fmt"
-	"github.com/goharbor/harbor/src/replication/ng/dao/models"
+	"github.com/astaxie/beego/orm"
 	"github.com/goharbor/harbor/src/common/dao"
+	"github.com/goharbor/harbor/src/common/utils/log"
+	"github.com/goharbor/harbor/src/replication/ng/dao/models"
 )
 
 // AddExecution ...
@@ -32,7 +32,7 @@ func AddExecution(execution *models.Execution) (int64, error) {
 		"values (?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING id"
 
 	var id int64
-	err := o.Raw(sql, execution.PolicyID, execution.Status, execution.StatusText,execution.Total, execution.Failed,
+	err := o.Raw(sql, execution.PolicyID, execution.Status, execution.StatusText, execution.Total, execution.Failed,
 		execution.Succeed, execution.InProgress, execution.Stopped, execution.Trigger).QueryRow(&id)
 	if err != nil {
 		return 0, err
@@ -260,7 +260,7 @@ func UpdateTaskStatus(id int64, status string, statusCondition ...string) (int64
 	params = append(params, id)
 	_, err := o.Raw(sql, params).Exec()
 	log.Infof("Update task %d: %s -> %s", id, task.Status, status)
-	if err != nil{
+	if err != nil {
 		log.Errorf("Update task failed %d: %s -> %s", id, task.Status, status)
 		o.Rollback()
 		return 0, err
@@ -368,11 +368,10 @@ func resetExecutionStatus(execution *models.Execution) error {
 func generateStatus(execution *models.Execution) string {
 	if execution.InProgress > 0 {
 		return models.ExecutionStatusInProgress
-	}else if execution.Failed > 0 {
+	} else if execution.Failed > 0 {
 		return models.ExecutionStatusFailed
 	} else if execution.Stopped > 0 {
 		return models.ExecutionStatusStopped
-	} else {
-		return models.ExecutionStatusSucceed
 	}
+	return models.ExecutionStatusSucceed
 }

@@ -17,10 +17,10 @@ package operation
 import (
 	"testing"
 
+	"github.com/goharbor/harbor/src/replication/ng/dao/models"
 	"github.com/goharbor/harbor/src/replication/ng/model"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/goharbor/harbor/src/replication/ng/dao/models"
 )
 
 type fakedFlowController struct{}

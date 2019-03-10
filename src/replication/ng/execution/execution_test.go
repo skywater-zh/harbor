@@ -1,14 +1,14 @@
 package execution
 
 import (
-	"github.com/stretchr/testify/require"
-	"github.com/stretchr/testify/assert"
-	"testing"
-	"time"
+	"github.com/goharbor/harbor/src/common/dao"
 	"github.com/goharbor/harbor/src/common/utils/log"
 	"github.com/goharbor/harbor/src/replication/ng/dao/models"
-	"github.com/goharbor/harbor/src/common/dao"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	"os"
+	"testing"
+	"time"
 )
 
 var executionManager, _ = NewDefaultManager()
@@ -36,16 +36,16 @@ func TestMain(m *testing.M) {
 
 func TestMethodOfExecutionManager(t *testing.T) {
 	execution := &models.Execution{
-		PolicyID: 11209,
-		Status: "InProgress",
+		PolicyID:   11209,
+		Status:     "InProgress",
 		StatusText: "None",
-		Total: 12,
-		Failed: 0,
-		Succeed: 7,
+		Total:      12,
+		Failed:     0,
+		Succeed:    7,
 		InProgress: 5,
-		Stopped: 0,
-		Trigger: "Event",
-		StartTime: time.Now(),
+		Stopped:    0,
+		Trigger:    "Event",
+		StartTime:  time.Now(),
 	}
 
 	defer func() {
@@ -75,11 +75,11 @@ func TestMethodOfExecutionManager(t *testing.T) {
 
 	// Update
 	executionNew := &models.Execution{
-		ID: id,
-		Status: "Failed",
-		Succeed: 12,
+		ID:         id,
+		Status:     "Failed",
+		Succeed:    12,
 		InProgress: 0,
-		EndTime: time.Now(),
+		EndTime:    time.Now(),
 	}
 	err = executionManager.Update(executionNew, models.ExecutionPropsName.Status, models.ExecutionPropsName.Succeed, models.ExecutionPropsName.InProgress,
 		models.ExecutionPropsName.EndTime)
@@ -91,13 +91,13 @@ func TestMethodOfExecutionManager(t *testing.T) {
 
 func TestMethodOfTaskManager(t *testing.T) {
 	task := &models.Task{
-		ExecutionID: 112200,
+		ExecutionID:  112200,
 		ResourceType: "resourceType1",
-		SrcResource: "srcResource1",
-		DstResource: "dstResource1",
-		JobID: "jobID1",
-		Status: "Initialized",
-		StartTime: time.Now(),
+		SrcResource:  "srcResource1",
+		DstResource:  "dstResource1",
+		JobID:        "jobID1",
+		Status:       "Initialized",
+		StartTime:    time.Now(),
 	}
 
 	defer func() {
@@ -127,7 +127,7 @@ func TestMethodOfTaskManager(t *testing.T) {
 
 	// UpdateTask
 	taskNew := &models.Task{
-		ID: id,
+		ID:          id,
 		SrcResource: "srcResourceChanged",
 	}
 	err = executionManager.UpdateTask(taskNew, models.TaskPropsName.SrcResource)

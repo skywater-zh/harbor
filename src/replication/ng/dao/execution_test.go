@@ -1,37 +1,37 @@
 package dao
 
 import (
+	"github.com/goharbor/harbor/src/replication/ng/dao/models"
+	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"testing"
-	"github.com/stretchr/testify/assert"
 	"time"
-	"github.com/goharbor/harbor/src/replication/ng/dao/models"
 )
 
 func TestMethodOfExecution(t *testing.T) {
 	execution1 := &models.Execution{
-		PolicyID: 11209,
-		Status: "InProgress",
+		PolicyID:   11209,
+		Status:     "InProgress",
 		StatusText: "None",
-		Total: 12,
-		Failed: 0,
-		Succeed: 7,
+		Total:      12,
+		Failed:     0,
+		Succeed:    7,
 		InProgress: 5,
-		Stopped: 0,
-		Trigger: "Event",
-		StartTime: time.Now(),
+		Stopped:    0,
+		Trigger:    "Event",
+		StartTime:  time.Now(),
 	}
 	execution2 := &models.Execution{
-		PolicyID: 11209,
-		Status: "Failed",
+		PolicyID:   11209,
+		Status:     "Failed",
 		StatusText: "Network error",
-		Total: 9,
-		Failed: 1,
-		Succeed: 8,
+		Total:      9,
+		Failed:     1,
+		Succeed:    8,
 		InProgress: 0,
-		Stopped: 0,
-		Trigger: "Manual",
-		StartTime: time.Now(),
+		Stopped:    0,
+		Trigger:    "Manual",
+		StartTime:  time.Now(),
 	}
 
 	// test add
@@ -64,11 +64,11 @@ func TestMethodOfExecution(t *testing.T) {
 
 	// test update
 	executionNew := &models.Execution{
-		ID: id1,
-		Status: "Succeed",
-		Succeed: 12,
+		ID:         id1,
+		Status:     "Succeed",
+		Succeed:    12,
 		InProgress: 0,
-		EndTime: time.Now(),
+		EndTime:    time.Now(),
 	}
 	n, err := UpdateExecution(executionNew, models.ExecutionPropsName.Status, models.ExecutionPropsName.Succeed, models.ExecutionPropsName.InProgress,
 		models.ExecutionPropsName.EndTime)
@@ -83,8 +83,7 @@ func TestMethodOfExecution(t *testing.T) {
 
 	// test delete all
 	require.Nil(t, DeleteAllExecutions(execution1.PolicyID))
-	query = &models.ExecutionQuery{
-	}
+	query = &models.ExecutionQuery{}
 	n, err = GetTotalOfExecutions(query)
 	require.Nil(t, err)
 	assert.Equal(t, int64(0), n)
@@ -92,23 +91,23 @@ func TestMethodOfExecution(t *testing.T) {
 
 func TestMethodOfTask(t *testing.T) {
 	task1 := &models.Task{
-		ExecutionID: 112200,
+		ExecutionID:  112200,
 		ResourceType: "resourceType1",
-		SrcResource: "srcResource1",
-		DstResource: "dstResource1",
-		JobID: "jobID1",
-		Status: "Initialized",
-		StartTime: time.Now(),
+		SrcResource:  "srcResource1",
+		DstResource:  "dstResource1",
+		JobID:        "jobID1",
+		Status:       "Initialized",
+		StartTime:    time.Now(),
 	}
 	task2 := &models.Task{
-		ExecutionID: 112200,
+		ExecutionID:  112200,
 		ResourceType: "resourceType2",
-		SrcResource: "srcResource2",
-		DstResource: "dstResource2",
-		JobID: "jobID2",
-		Status: "Stopped",
-		StartTime: time.Now(),
-		EndTime: time.Now(),
+		SrcResource:  "srcResource2",
+		DstResource:  "dstResource2",
+		JobID:        "jobID2",
+		Status:       "Stopped",
+		StartTime:    time.Now(),
+		EndTime:      time.Now(),
 	}
 
 	// test add
@@ -141,8 +140,8 @@ func TestMethodOfTask(t *testing.T) {
 
 	// test update
 	taskNew := &models.Task{
-		ID: id1,
-		Status: "Failed",
+		ID:      id1,
+		Status:  "Failed",
 		EndTime: time.Now(),
 	}
 	n, err := UpdateTask(taskNew, models.TaskPropsName.Status, models.TaskPropsName.EndTime)
@@ -157,8 +156,7 @@ func TestMethodOfTask(t *testing.T) {
 
 	// test delete all
 	require.Nil(t, DeleteAllTasks(task1.ExecutionID))
-	query = &models.TaskQuery{
-	}
+	query = &models.TaskQuery{}
 	n, err = GetTotalOfTasks(query)
 	require.Nil(t, err)
 	assert.Equal(t, int64(0), n)
@@ -166,38 +164,38 @@ func TestMethodOfTask(t *testing.T) {
 
 func TestUpdateJobStatus(t *testing.T) {
 	execution := &models.Execution{
-		PolicyID: 11209,
-		Status: "InProgress",
+		PolicyID:   11209,
+		Status:     "InProgress",
 		StatusText: "None",
-		Total: 12,
-		Failed: 0,
-		Succeed: 10,
+		Total:      12,
+		Failed:     0,
+		Succeed:    10,
 		InProgress: 1,
-		Stopped: 1,
-		Trigger: "Event",
-		StartTime: time.Now(),
+		Stopped:    1,
+		Trigger:    "Event",
+		StartTime:  time.Now(),
 	}
 	executionID, _ := AddExecution(execution)
 	task1 := &models.Task{
-		ID: 20191,
-		ExecutionID: executionID,
+		ID:           20191,
+		ExecutionID:  executionID,
 		ResourceType: "resourceType1",
-		SrcResource: "srcResource1",
-		DstResource: "dstResource1",
-		JobID: "jobID1",
-		Status: "Pending",
-		StartTime: time.Now(),
+		SrcResource:  "srcResource1",
+		DstResource:  "dstResource1",
+		JobID:        "jobID1",
+		Status:       "Pending",
+		StartTime:    time.Now(),
 	}
 	task2 := &models.Task{
-		ID: 20192,
-		ExecutionID: executionID,
+		ID:           20192,
+		ExecutionID:  executionID,
 		ResourceType: "resourceType2",
-		SrcResource: "srcResource2",
-		DstResource: "dstResource2",
-		JobID: "jobID2",
-		Status: "Stopped",
-		StartTime: time.Now(),
-		EndTime: time.Now(),
+		SrcResource:  "srcResource2",
+		DstResource:  "dstResource2",
+		JobID:        "jobID2",
+		Status:       "Stopped",
+		StartTime:    time.Now(),
+		EndTime:      time.Now(),
 	}
 	taskID1, _ := AddTask(task1)
 	taskID2, _ := AddTask(task2)

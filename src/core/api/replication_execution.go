@@ -74,8 +74,8 @@ func (r *ReplicationOperationAPI) authorized(policy *model.Policy, resource rbac
 // ListExecutions ...
 func (r *ReplicationOperationAPI) ListExecutions() {
 	query := &models.ExecutionQuery{
-		Statuses:  []string{r.GetString("status")},
-		Trigger: r.GetString("trigger"),
+		Statuses: []string{r.GetString("status")},
+		Trigger:  r.GetString("trigger"),
 	}
 	if len(r.GetString("policy_id")) > 0 {
 		policyID, err := r.GetInt64("policy_id")
@@ -163,7 +163,7 @@ func (r *ReplicationOperationAPI) ListTasks() {
 	query := &models.TaskQuery{
 		ExecutionID:  executionID,
 		ResourceType: r.GetString("resource_type"),
-		Statuses:       []string{r.GetString("status")},
+		Statuses:     []string{r.GetString("status")},
 	}
 	query.Page, query.Size = r.GetPaginationParams()
 	total, tasks, err := ng.OperationCtl.ListTasks(query)

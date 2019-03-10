@@ -15,10 +15,10 @@
 package operation
 
 import (
+	"github.com/goharbor/harbor/src/replication/ng/dao/models"
 	"github.com/goharbor/harbor/src/replication/ng/execution"
 	"github.com/goharbor/harbor/src/replication/ng/flow"
 	"github.com/goharbor/harbor/src/replication/ng/model"
-	"github.com/goharbor/harbor/src/replication/ng/dao/models"
 )
 
 // Controller handles the replication-related operations: start,

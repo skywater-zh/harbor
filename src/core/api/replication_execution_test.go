@@ -19,8 +19,8 @@ import (
 	"testing"
 
 	"github.com/goharbor/harbor/src/replication/ng"
-	"github.com/goharbor/harbor/src/replication/ng/model"
 	"github.com/goharbor/harbor/src/replication/ng/dao/models"
+	"github.com/goharbor/harbor/src/replication/ng/model"
 )
 
 type fakedOperationController struct{}

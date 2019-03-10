@@ -39,9 +39,9 @@ var statusMap = map[string]string{
 // Handler handles reqeust on /service/notifications/jobs/*, which listens to the webhook of jobservice.
 type Handler struct {
 	api.BaseController
-	executionMgr      execution.Manager
-	id                int64
-	status            string
+	executionMgr execution.Manager
+	id           int64
+	status       string
 }
 
 // Prepare ...

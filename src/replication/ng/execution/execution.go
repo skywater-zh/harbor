@@ -17,8 +17,8 @@ package execution
 import (
 	"fmt"
 	"github.com/goharbor/harbor/src/core/utils"
-	"github.com/goharbor/harbor/src/replication/ng/dao/models"
 	"github.com/goharbor/harbor/src/replication/ng/dao"
+	"github.com/goharbor/harbor/src/replication/ng/dao/models"
 )
 
 // Manager manages the executions
@@ -60,11 +60,10 @@ type Manager interface {
 
 // DefaultManager ..
 type DefaultManager struct {
-
 }
 
 // NewDefaultManager ...
-func NewDefaultManager() (Manager, error)  {
+func NewDefaultManager() (Manager, error) {
 	return &DefaultManager{}, nil
 }
 
@@ -140,7 +139,7 @@ func (dm *DefaultManager) GetTask(id int64) (*models.Task, error) {
 
 // UpdateTask ...
 func (dm *DefaultManager) UpdateTask(task *models.Task, props ...string) error {
-	n, err := dao.UpdateTask(task, props ...)
+	n, err := dao.UpdateTask(task, props...)
 	if err != nil {
 		return err
 	}
@@ -152,7 +151,7 @@ func (dm *DefaultManager) UpdateTask(task *models.Task, props ...string) error {
 
 // UpdateTaskStatus ...
 func (dm *DefaultManager) UpdateTaskStatus(taskID int64, status string, statusCondition ...string) error {
-	n, err := dao.UpdateTaskStatus(taskID, status, statusCondition ...)
+	n, err := dao.UpdateTaskStatus(taskID, status, statusCondition...)
 	if err != nil {
 		return err
 	}
